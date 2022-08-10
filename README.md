@@ -1,6 +1,5 @@
 # massimport.nvim
 
-## WORK IN PROGRESS
 A neovim plugin to simplify writing import statements
 
 Written in Lua, for Neovim. Instead of having to write `local thing = require("thing")` for seven different libraries, you can now do this a lot faster. If your language of choice is not supported, please let me know so that I can implement that.
