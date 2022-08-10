@@ -27,4 +27,22 @@ describe("massimport", function ()
         local trying = require("massimport.utils").parse_input({"one", "two"}, "tex")
         assert.are.same(trying, expected)
     end)
+
+    it("can parse a go table", function ()
+        local expected = {[[import "one"]], [[import "two"]]}
+        local trying = require("massimport.utils").parse_input({"one", "two"}, "go")
+        assert.are.same(trying, expected)
+    end)
+
+    it("can parse a rust table", function ()
+        local expected = {[[use one;]], [[use two;]]}
+        local trying = require("massimport.utils").parse_input({"one", "two"}, "rust")
+        assert.are.same(trying, expected)
+    end)
+    
+    it("can parse a c table", function ()
+        local expected = {[[#include "one"]], [[#include "two"]]}
+        local trying = require("massimport.utils").parse_input({[["one"]], [["two"]]}, "c")
+        assert.are.same(trying, expected)
+    end)
 end)

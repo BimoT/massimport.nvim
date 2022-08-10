@@ -9,7 +9,7 @@ M.import_styles = {
     ["tex"] = function (library) return [[\usepackage{]]..library..[[}]] end,
     ["go"] = function (library) return [[import "]]..library..[["]] end,
     ["rust"] = function (library) return [[use ]]..library..[[;]] end,
-    ["c"] = function (library) return [[#include "]]..library..[["]] end,
+    ["c"] = function (library) return [[#include ]]..library end,
     ["css"] = function (library) return [[@import ]]..library..[[;]]end,
 }
 

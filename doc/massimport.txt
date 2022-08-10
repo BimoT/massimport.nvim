@@ -1,1 +1,150 @@
+*massimport.txt*        For Neovim 
+================================================================================
+CONTENTS
+                                                *massimport* *massimport.nvim*
+
+    Introduction ................................... |massimport-introduction|
+    Requirements ................................... |massimport-requirements|
+    Usage ................................................. |massimport-usage|
+    Configuration ................................. |massimport-configuration|
+    Internals ......................................... |massimport-internals|
+
+================================================================================
+INTRODUCTION
+                                                     *massimport-introduction*
+
+Massimport.nvim is a plugin to make writing import statements easier.
+In many languages, especially Lua, writing multiple lines of import
+statements can be quite a chore. Instead of writing 
+    local thelibrary = require("thelibrary")
+    
+you can just write `thelibrary`, followed by a sequence of keys that you can
+define yourself.
+
+================================================================================
+REQUIREMENTS
+                                                     *massimport-requirements*
+
+This plugin depends on plenary for filetype detection and testing. Many
+plugins depend on plenary, so you might have it installed already. If plenary
+is not installed, then massimport.nvim will use the basic vim filetype
+detection to try to detect filetypes.
+
+================================================================================
+USAGE
+                                                            *massimport-usage*
+There are currently three ways to use this plugin:
+
+- The `:Massimport` command, which is provided without any configuration
+  options
+- The normal-mode massimport function, for which you need to have called
+  the `setup()` function in your `init.lua` or in whatever file you have
+  your plugin installed
+- The visual-mode massimport function, for which you also need to have
+  called the `setup()` function.
+
+                                                                 *:Massimport*
+The `:Massimport` function takes any amount of arguments, and splits them by
+whitespace. each "word" becomes an import statement of its own. An example:
+>
+    :Massimport one two three
+<
+If you do this in Lua, then the result will be:
+>
+    local one = require("one")
+    local two = require("two")
+    local three = require("three")
+<
+NOTE: If you call `:Massimport` without any arguments, then it will default
+to the normal-mode function.
+
+                                                       *massimport-normalmode*
+The normal-mode function will be bound to a sequence of keys. If you press
+those keys, then the current line will be split by whitespace, and every
+"word" will turn into an import statement of its own, just like with every
+"word" in the above example.
+NOTE: the line at which you call the normal-mode function will be deleted.
+
+                                                       *massimport-visualmode*
+The visual-mode function will be bound to a sequence of keys. If you press
+those keys, in visual mode, then the current lines that are selected will be
+turned into import statements. Every line will become an import statement of
+its own. An example:
+>
+    one
+    two
+    three
+<
+In a lua file, selecting those three lines and pressing the key sequence for
+the visual-mode massimport function will result in the following:
+>
+    local one = require("one")
+    local two = require("two")
+    local three = require("three")
+<
+NOTE: the original lines, not just the selection, will be deleted and replaced
+by the import statements.
+
+================================================================================
+CONFIGURATION
+                                                    *massimport-configuration* 
+
+In your init.lua or wherever you have installed your plugin, make sure that
+you call the `setup()` function. If you call that function without any
+arguments, then "<leader>m" will be set as the default keymap for both the
+normal mode and visual mode functionality. If you don't call the `setup()`
+function, then you do NOT get access to the normal mode and visual mode
+functionalities.
+                                                          *massimport.setup()*
+massimport.setup( {opts} )
+Valid keys for {opts}:
+    normalmode_keys~
+        String. Sets the keymap for massimport in normal mode.
+        Defaults to: "<leader>m"
+    visualmode_keys~
+        String. Sets the keymap for massimport in visual mode.
+        Defaults to: "<leader>m"
+
+For an init.lua:~
+> 
+    require("massimport").setup({
+            normalmode_keys = "<leader>m",
+            visualmode_keys = "<leader>m",
+        })
+<
+For an init.vim:~
+>
+    lua << EOF
+    require("massimport").setup({
+            normalmode_keys = "<leader>m",
+            visualmode_keys = "<leader>m",
+        })
+    EOF
+<
+
+You can also call the `setup()` function, and set one of the keys to an empty
+string. This results in the massimport plugin not setting the keymap of that
+function. So if you have
+>
+    require("massimport").setup({
+            normalmode_keys = "",
+            visualmode_keys = "",
+        })
+<
+then you can use a plugin like `which-key` to handle the keybindings.
+
+================================================================================
+INTERNALS
+                                                        *massimport-internals*
+
+If you want to handle the keymaps yourself, then this is important:
+Under the hood, the normal-mode function calls
+'require("massimport.core").massimport_normalmode()', and the visual-mode
+function calls 'require("massimport.core").massimport_visualmode()'.
+These are the right-hand-sides of the keymaps, if you decide that you want to
+bind them yourself:
+- "<cmd>lua require('massimport.core').massimport_normalmode()<cr>"
+- "<cmd>lua require('massimport.core').massimport_visualmode()<cr>"
+
+
 vim:tw=78:sw=4:ts=8:ft=help:norl:
