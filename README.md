@@ -4,7 +4,7 @@ A neovim plugin to simplify writing import statements
 
 Written in Lua, for Neovim. Instead of having to write `local thing = require("thing")` for seven different libraries, you can now do this a lot faster. If your language of choice is not supported, please let me know so that I can implement that.
 
-![Command mode gif](https://raw.githubusercontent.com/BimoT/massimport.nvim/main/.assets/commandmode.gif)
+![Commandmode](https://raw.githubusercontent.com/BimoT/massimport.nvim/main/.assets/commandmode.gif)
 
 ## Features
 
