@@ -4,6 +4,8 @@ A neovim plugin to simplify writing import statements
 
 Written in Lua, for Neovim. Instead of having to write `local thing = require("thing")` for seven different libraries, you can now do this a lot faster. If your language of choice is not supported, please let me know so that I can implement that.
 
+![Command mode gif](https://raw.githubusercontent.com/BimoT/massimport.nvim/main/.assets/commandmode.gif)
+
 ## Features
 
 This plugin provides the following:
@@ -12,7 +14,9 @@ This plugin provides the following:
 - Normal mode massimport function: splits the current line by whitespace and turns every word into a separate import statement.
 - Visual mode massimport function: turns each line in the visual selection into a separate import statement.
 
-For the normal mode and visual mode, you need a proper configuration (see [below](#Configuring))
+For a demonstration, see the .gif files in the .assets folder.
+For the normal mode and visual mode, you need a proper configuration (see [below](#Configuring)).
+
 
 ## Requirements
 
@@ -27,7 +31,7 @@ You can install it using your package manager, like [vim-plug](https://github.co
 Plug 'bimot/massimport.nvim'
 
 -- Using packer:
-use { "bimot/massimport.nvim"}
+use { "bimot/massimport.nvim" }
 ```
 
 ## Configuring
