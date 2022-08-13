@@ -44,22 +44,26 @@ function U.parse_input(myinput, manual_filetype)
          returns: table 
     --]]
     local filetype = manual_filetype or U.detect_filetype()
-    if filetype == "" then return false end
+    if filetype == "" then return {} end
 
     local imports_table = {}
     local importconverter = bigtable[filetype]
-    if not importconverter then return false end
+    if not importconverter then return {} end
     if type(myinput) == "table" then
         local counter =1
         for _, item in ipairs(myinput) do
-            imports_table[counter] = importconverter(item)
-            counter = counter + 1
+            if item ~= "" then
+                imports_table[counter] = importconverter(item)
+                counter = counter + 1
+            end
         end
     elseif type(myinput) == "string" then
         local counter = 1
         for word in myinput:gmatch("%S+") do --everything but space
-            imports_table[counter] = importconverter(word)
-            counter = counter + 1
+            if word ~= "" then
+                imports_table[counter] = importconverter(word)
+                counter = counter + 1
+            end
         end
     end
     return imports_table

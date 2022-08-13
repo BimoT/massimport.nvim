@@ -5,8 +5,9 @@ local C = {}
 function C.massimport_visualmode()
     --[[ only run this in visual mode ]]
     local selected_region, region_start, region_end = utils.get_visual_region()
+    if vim.tbl_isempty(selected_region) then return end -- do nothing if 
     local importtable = utils.parse_input(selected_region)
-    if importtable then
+    if not vim.tbl_isempty(importtable) then
         api.nvim_buf_set_lines(0, region_start - 1, region_end, false, importtable)
     end
 end
@@ -30,6 +31,7 @@ end
 function C.massimport_normalmode()
     --[[ Only run this in normal mode, with no arguments. ]]
     local currentline = api.nvim_get_current_line()
+    if currentline == "" then return end
     local tbl_of_strings = vim.split(currentline, "%s+", { trimempty = true })
     local importtable = utils.parse_input(tbl_of_strings)
     if importtable then
